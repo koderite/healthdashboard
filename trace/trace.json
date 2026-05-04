@@ -1,0 +1,15 @@
+[
+{"name":"process_name","args":{"name":"tsc"},"cat":"__metadata","ph":"M","ts":98819.7,"pid":1,"tid":1},
+{"name":"thread_name","args":{"name":"Main"},"cat":"__metadata","ph":"M","ts":98819.7,"pid":1,"tid":1},
+{"name":"TracingStartedInBrowser","cat":"disabled-by-default-devtools.timeline","ph":"M","ts":98819.7,"pid":1,"tid":1},
+{"pid":1,"tid":1,"ph":"B","cat":"program","ts":101301.7,"name":"createProgram","args":{"configFilePath":"C:/Users/user/Downloads/HealthDashboard/tsconfig.json"}},
+{"pid":1,"tid":1,"ph":"B","cat":"parse","ts":105211.9,"name":"createSourceFile","args":{"path":"C:/Users/user/Downloads/HealthDashboard/tsconfig.app.json"}},
+{"pid":1,"tid":1,"ph":"E","cat":"parse","ts":109750.3,"name":"createSourceFile","args":{"path":"C:/Users/user/Downloads/HealthDashboard/tsconfig.app.json"}},
+{"pid":1,"tid":1,"ph":"X","cat":"parse","ts":110248.40000000001,"name":"parseJsonSourceFileConfigFileContent","dur":11690.5,"args":{"path":"C:/Users/user/Downloads/HealthDashboard/tsconfig.app.json"}},
+{"pid":1,"tid":1,"ph":"B","cat":"parse","ts":123791.1,"name":"createSourceFile","args":{"path":"C:/Users/user/Downloads/HealthDashboard/tsconfig.node.json"}},
+{"pid":1,"tid":1,"ph":"E","cat":"parse","ts":127048.5,"name":"createSourceFile","args":{"path":"C:/Users/user/Downloads/HealthDashboard/tsconfig.node.json"}},
+{"pid":1,"tid":1,"ph":"E","cat":"program","ts":131400.7,"name":"createProgram","args":{"configFilePath":"C:/Users/user/Downloads/HealthDashboard/tsconfig.json"}},
+{"pid":1,"tid":1,"ph":"B","cat":"emit","ts":132726.1,"name":"emit","args":{}},
+{"pid":1,"tid":1,"ph":"B","cat":"emit","ts":133181.7,"name":"emitBuildInfo","args":{}},
+{"pid":1,"tid":1,"ph":"E","cat":"emit","ts":133904.40000000002,"name":"emitBuildInfo","args":{}},
+{"pid":1,"tid":1,"ph":"E","cat":"emit","ts":133967,"name":"emit","args":{}}

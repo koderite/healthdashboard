@@ -1,0 +1,415 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 228 23% 97%;
+    --foreground: 233 24% 14%;
+    --card: 0 0% 100%;
+    --card-foreground: 233 24% 14%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 233 24% 14%;
+    --primary: 168 100% 39%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 14% 96%;
+    --secondary-foreground: 233 24% 14%;
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 9% 46%;
+    --accent: 168 100% 95%;
+    --accent-foreground: 233 24% 14%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 168 100% 39%;
+    --radius: 0.625rem;
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 220 9% 46%;
+    --sidebar-primary: 168 100% 39%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 168 100% 95%;
+    --sidebar-accent-foreground: 233 24% 14%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 168 100% 39%;
+
+    /* Design Tokens */
+    --color-purple: #705AAA;
+    --color-lavender: #CBC8D4;
+    --color-teal-light: #D8FCF7;
+    --color-teal: #01F0D0;
+    --color-teal-active: #01F0D0;
+    --color-green: #0BD984;
+    --color-navy: #072635;
+    --color-dark-navy: #0C3D5D;
+    --color-blue-navy: #084C77;
+    --color-blue: #055A92;
+    --color-sky: #006AAC;
+    --color-cyan: #007BC7;
+    --color-gray: #707070;
+    --color-gray-light: #F6F6F6;
+    --color-gray-border: #EDEDED;
+    --color-black: #000000;
+    --color-gray-muted: #878787;
+    --color-white: #FFFFFF;
+    --color-orange: #FF6200;
+
+    /* Font Tokens */
+    --font-family: 'Manrope', system-ui, -apple-system, sans-serif;
+    --font-size-xs: 12px;
+    --font-size-sm: 13px;
+    --font-size-base: 14px;
+    --font-size-lg: 18px;
+    --font-size-xl: 24px;
+    --line-height-tight: 18px;
+    --line-height-normal: 24px;
+    --line-height-loose: 33px;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    background: #F6F7F8 0% 0% no-repeat padding-box;
+    @apply text-foreground antialiased;
+    font-family: var(--font-family);
+  }
+}
+
+
+
+@layer utilities {
+  .scrollbar-custom {
+    /* Firefox */
+    scrollbar-width: thin;
+    scrollbar-color: #072635 #E3E4E6;
+  }
+
+  /* Chrome, Edge, Safari */
+  .scrollbar-custom::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+
+  .scrollbar-custom::-webkit-scrollbar-track {
+    background: #E3E4E6;
+  }
+
+  .scrollbar-custom::-webkit-scrollbar-thumb {
+    background-color: #072635;
+    border-radius: 9999px;
+  }
+
+  .scrollbar-custom::-webkit-scrollbar-thumb:hover {
+    background-color: #072635;
+  }
+
+  /* Optional: removes extra buttons (arrows) if present */
+  .scrollbar-custom::-webkit-scrollbar-button {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+
+  .scrollbar-custom::-webkit-scrollbar-button:single-button,
+  .scrollbar-custom::-webkit-scrollbar-button:start,
+  .scrollbar-custom::-webkit-scrollbar-button:end {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+}
+
+@layer components {
+  /* Typography */
+  .text-title {
+    font-family: var(--font-family);
+    font-weight: 800;
+    font-size: var(--font-size-xl);
+    line-height: var(--line-height-loose);
+    color: var(--color-navy);
+  }
+
+  .text-heading {
+    font-family: var(--font-family);
+    font-weight: 800;
+    font-size: var(--font-size-xl);
+    line-height: var(--line-height-loose);
+    color: var(--color-navy);
+  }
+
+  .text-subtitle {
+    font-family: var(--font-family);
+    font-weight: 800;
+    font-size: var(--font-size-xl);
+    line-height: var(--line-height-loose);
+    color: var(--color-navy);
+    text-transform: capitalize;
+  }
+
+  .text-body-emphasized {
+    font-family: var(--font-family);
+    font-weight: 700;
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-tight);
+    color: var(--color-navy);
+  }
+
+  .text-body-secondary {
+    font-family: var(--font-family);
+    font-weight: 400;
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-tight);
+    color: var(--color-gray);
+  }
+
+  .text-body {
+    font-family: var(--font-family);
+    font-weight: 400;
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-tight);
+    color: var(--color-navy);
+  }
+
+  .text-item {
+    font-family: var(--font-family);
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 18px;
+    color: var(--color-navy);
+    text-transform: capitalize;
+  }
+
+  /* Cards */
+  .card-base {
+    background: var(--color-white);
+    border-radius: 24px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    @apply flex flex-col overflow-hidden;
+  }
+
+  .card-header {
+    @apply flex items-center justify-between px-5 py-4 border-b border-gray-100;
+  }
+
+  .card-padding {
+    padding: 24px;
+  }
+
+  /* Buttons & Interactive */
+  .icon-btn {
+    @apply p-1.5 text-gray-400 hover:text-gray-600 transition-colors duration-150;
+  }
+
+  .nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 9999px;
+    font: normal normal bold 14px/19px var(--font-family);
+    letter-spacing: 0px;
+    color: var(--color-navy);
+    @apply transition-all duration-150;
+  }
+
+  .nav-btn-active {
+    background: var(--color-teal);
+    font: normal normal bold 14px/19px var(--font-family);
+    letter-spacing: 0px;
+    color: var(--color-navy);
+  }
+
+  .nav-btn-inactive {
+    color: var(--color-gray-muted);
+  }
+
+  .nav-btn-inactive:hover {
+    color: var(--color-navy);
+    background: var(--color-gray-light);
+  }
+
+  .profile-avatar {
+    width: 100%;
+    border-radius: 9999px;
+    object-fit: cover;
+    transition: transform 200ms;
+  }
+
+  .profile-avatar:hover {
+    transform: scale(1.02);
+  }
+
+  .cta-button {
+    font-family: var(--font-family);
+    font-size: var(--font-size-sm);
+    font-weight: 700;
+    @apply transition-all duration-150 hover:scale-[1.02] active:scale-[0.98];
+  }
+
+  /* Layout */
+  .panel-title {
+    font-family: var(--font-family);
+    font-weight: 600;
+    font-size: var(--font-size-lg);
+    color: var(--color-navy);
+  }
+
+  .divider {
+    height: 24px;
+    width: 1px;
+    background: var(--color-gray-border);
+  }
+
+  .text-navy {
+    color: var(--color-navy);
+  }
+
+  /* Section Card - Reusable for center panels */
+  .section-card {
+    background: var(--color-white);
+    border-radius: 16px;
+    padding: 20px;
+  }
+
+  /* Info Row */
+  .info-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 4px;
+    border-radius: 8px;
+    transition: background-color 150ms;
+  }
+
+  .info-row:hover {
+    background: var(--color-gray-light);
+  }
+
+  .info-label {
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: var(--font-size-base);
+    color: var(--color-gray);
+  }
+
+  .info-value {
+    font-family: var(--font-family);
+    font-weight: 700;
+    font-size: var(--font-size-base);
+    color: var(--color-navy);
+    margin-top: 2px;
+  }
+
+  .info-icon {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+  }
+
+  /* Status Pill */
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    font-family: var(--font-family);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-navy);
+    transition: transform 150ms;
+  }
+
+  .status-pill:hover {
+    transform: scale(1.02);
+  }
+
+  /* Spacing */
+  .section-gap {
+    margin-top: 32px;
+  }
+
+  .content-gap {
+    gap: 32px;
+  }
+
+  /* Vital Sign Card */
+  .vital-card {
+    border-radius: 16px;
+    padding: 20px;
+    max-width: 228px;
+    max-height: 242px;
+    transition: all 200ms;
+  }
+
+  .vital-card:hover {
+    transform: translateY(-2px);
+  }
+
+  .vital-icon {
+    width: 94px;
+    height: 94px;
+  }
+
+  .vital-value {
+    font-family: var(--font-family);
+    font-weight: 700;
+    font-size: 24px;
+    color: var(--color-navy);
+  }
+
+  .vital-unit {
+    font-family: var(--font-family);
+    font-size: 14px;
+    color: var(--color-gray-muted);
+    margin-left: 4px;
+  }
+
+  .vital-status {
+    font-family: var(--font-family);
+    font-size: 14px;
+    color: var(--color-navy);
+  }
+
+  .vital-indicator {
+    width: 10px;
+    height: 5px;
+  }
+
+  /* Patient List Item */
+  .patient-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    text-align: left;
+    transition: all 200ms;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .patient-item-active {
+    background: var(--color-teal-light);
+  }
+
+  .patient-item:hover:not(.patient-item-active) {
+    background: var(--color-gray-light);
+  }
+
+  .patient-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 9999px;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .patient-meta {
+    font-family: var(--font-family);
+    font-size: 12px;
+    color: var(--color-gray-muted);
+  }
+}
