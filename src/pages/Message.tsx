@@ -1,5 +1,6 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Search } from 'lucide-react';
+import { Search, ChevronLeft } from 'lucide-react';
 import drJoseImg from '@/assets/Dr-Jose.png';
 
 const conversations = [
@@ -21,6 +22,8 @@ const unreadDot = (count: number) => {
 };
 
 export default function Message() {
+  const [selectedConv, setSelectedConv] = useState<typeof conversations[0] | null>(null);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -31,7 +34,7 @@ export default function Message() {
       <h1 className="text-title mb-6">Messages</h1>
 
       <div className="flex flex-col xl:flex-row gap-6">
-        <div className="w-full xl:w-[400px] card-base overflow-hidden">
+        <div className={`w-full xl:w-[400px] card-base overflow-hidden ${selectedConv ? 'hidden xl:block' : ''}`}>
           <div className="p-4 border-b border-gray-100">
             <div className="relative">
               <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
@@ -47,7 +50,10 @@ export default function Message() {
             {conversations.map((conv, i) => (
               <div
                 key={i}
-                className="flex items-start gap-3 px-4 py-3.5 hover:bg-gray-50 cursor-pointer transition-colors duration-150"
+                onClick={() => setSelectedConv(conv)}
+                className={`flex items-start gap-3 px-4 py-3.5 cursor-pointer transition-colors duration-150 ${
+                  selectedConv === conv ? 'bg-teal-light' : 'hover:bg-gray-50'
+                }`}
               >
                 <div className="relative flex-shrink-0">
                   <img src={drJoseImg} alt={conv.name} className="w-10 h-10 rounded-full object-cover" />
@@ -71,16 +77,43 @@ export default function Message() {
           </div>
         </div>
 
-        <div className="flex-1 card-base p-8 flex items-center justify-center">
-          <div className="text-center">
-            <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-              </svg>
+        <div className={`flex-1 card-base p-4 sm:p-6 ${!selectedConv ? 'hidden xl:flex' : 'flex'} items-start justify-center flex-col`}>
+          {selectedConv ? (
+            <div className="w-full">
+              <button
+                onClick={() => setSelectedConv(null)}
+                className="xl:hidden flex items-center gap-1 text-sm text-gray-500 mb-4 hover:text-navy"
+              >
+                <ChevronLeft className="w-4 h-4" />
+                Back
+              </button>
+              <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
+                <div className="relative flex-shrink-0">
+                  <img src={drJoseImg} alt={selectedConv.name} className="w-12 h-12 rounded-full object-cover" />
+                  {selectedConv.online && (
+                    <span className="w-3 h-3 rounded-full bg-green-500 border-2 border-white absolute bottom-0 right-0" />
+                  )}
+                </div>
+                <div>
+                  <p className="text-base font-semibold text-navy">{selectedConv.name}</p>
+                  <p className="text-sm text-gray-500">{selectedConv.role}</p>
+                </div>
+              </div>
+              <div className="text-center py-12">
+                <p className="text-sm text-gray-400">Messages will appear here</p>
+              </div>
             </div>
-            <p className="text-navy font-semibold mb-1">Select a conversation</p>
-            <p className="text-sm text-gray-500">Choose a message to read and reply</p>
-          </div>
+          ) : (
+            <div className="w-full text-center">
+              <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                </svg>
+              </div>
+              <p className="text-navy font-semibold mb-1">Select a conversation</p>
+              <p className="text-sm text-gray-500">Choose a message to read and reply</p>
+            </div>
+          )}
         </div>
       </div>
     </motion.div>

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Download, Search, ArrowUpDown } from 'lucide-react';
 
@@ -18,6 +19,13 @@ const statusStyles: Record<string, string> = {
 };
 
 export default function Transactions() {
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const filtered = transactions.filter(tx =>
+    tx.patient.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    tx.id.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -33,10 +41,15 @@ export default function Transactions() {
             <input
               type="text"
               placeholder="Search..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full sm:w-48 pl-10 pr-4 py-2 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-1 focus:ring-teal-500"
             />
           </div>
-          <button className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-navy border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors duration-150">
+          <button
+            onClick={() => alert('Export feature coming soon')}
+            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-navy border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors duration-150"
+          >
             <Download className="w-4 h-4" />
             Export
           </button>
@@ -61,8 +74,12 @@ export default function Transactions() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-50">
-              {transactions.map((tx, i) => (
-                <tr key={i} className="hover:bg-gray-50 transition-colors duration-150 cursor-pointer">
+              {filtered.map((tx, i) => (
+                <tr
+                  key={i}
+                  onClick={() => alert(`Invoice ${tx.id} for ${tx.patient} - ${tx.amount}`)}
+                  className="hover:bg-gray-50 transition-colors duration-150 cursor-pointer"
+                >
                   <td className="px-4 py-3.5 text-sm font-medium text-navy">{tx.id}</td>
                   <td className="px-4 py-3.5 text-sm text-gray-700">{tx.patient}</td>
                   <td className="px-4 py-3.5 text-sm text-gray-500">{tx.date}</td>

@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router';
 import { Activity, TrendingUp, Users, Clock, ArrowUp, ArrowDown } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -16,7 +17,16 @@ const recentActivity = [
   { time: '02:20 PM', event: 'Discharge summary', detail: 'Lisa Anderson discharged from ward 3B' },
 ];
 
+const quickActions: { label: string; path: string }[] = [
+  { label: 'New Appointment', path: '/schedule' },
+  { label: 'Register Patient', path: '/patients' },
+  { label: 'View Reports', path: '/patients' },
+  { label: 'Manage Staff', path: '/schedule' },
+];
+
 export default function Overview() {
+  const navigate = useNavigate();
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -72,12 +82,13 @@ export default function Overview() {
         <div className="card-base p-5">
           <h2 className="text-lg font-semibold text-navy mb-4">Quick Actions</h2>
           <div className="space-y-3">
-            {['New Appointment', 'Register Patient', 'View Reports', 'Manage Staff'].map((action) => (
+            {quickActions.map((action) => (
               <button
-                key={action}
+                key={action.label}
+                onClick={() => navigate(action.path)}
                 className="w-full text-left px-4 py-3 rounded-xl border border-gray-100 text-sm font-medium text-navy hover:bg-gray-50 transition-colors duration-150"
               >
-                {action}
+                {action.label}
               </button>
             ))}
           </div>

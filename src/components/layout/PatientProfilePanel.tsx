@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router';
 import { Button } from "@/components/ui/button";
 import type { Patient } from "@/lib/api";
 import { BirthIcon, FemaleIcon, PhoneIcon, InsuranceIcon } from "@/assets/icons";
@@ -7,6 +8,8 @@ interface PatientProfilePanelProps {
 }
 
 export function PatientProfilePanel({ patient }: PatientProfilePanelProps) {
+  const navigate = useNavigate();
+
   const formatDateOfBirth = (dateStr: string) => {
     const date = new Date(dateStr);
     return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
@@ -67,6 +70,7 @@ export function PatientProfilePanel({ patient }: PatientProfilePanelProps) {
       <Button
         className="cta-button"
         style={{ maxWidth: '220px', width: '100%', height: '41px', background: '#01F0D0', borderRadius: '41px', color: '#072635' }}
+        onClick={() => navigate('/patients')}
       >
         Show All Information
       </Button>
