@@ -12,7 +12,7 @@ export function DiagnosticList({ diagnosticItem }: DiagnosticListProps) {
         Diagnostic List
       </h3>
 
-      <div className="overflow-hidden w-full">
+      <div className="overflow-x-auto w-full">
         {/* Table Header */}
         <div className="grid w-full grid-cols-[1fr_1.5fr_1fr] gap-4 px-4 py-2.5 bg-gray-50 rounded-[20px] mb-2">
           <span className="text-[11px] font-semibold text-gray-500 uppercase tracking-wide">

@@ -8,8 +8,8 @@ interface LastResultProps {
 export function LabResults({ labResults }: LastResultProps) {
   return (
     <div
-      className="card-base p-6"
-      style={{ maxWidth: "367px", maxHeight: "296px", overflowY: "hidden" }}
+      className="card-base p-4 sm:p-6 w-full"
+      style={{ maxWidth: "100%", maxHeight: "296px", overflowY: "hidden" }}
     >
       <h3 className="text-heading mb-4">Lab Results</h3>
 

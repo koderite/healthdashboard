@@ -13,7 +13,7 @@ interface VitalSignCardProps {
 
 export function VitalSignCard({ vitalSign, icon: Icon, iconSrc, iconColor, bgColor }: VitalSignCardProps) {
   return (
-    <div className="vital-card" style={{ background: bgColor }}>
+    <div className="vital-card w-full" style={{ background: bgColor }}>
       <div className="flex items-start justify-start mb-3">
         {iconSrc ? (
           <img src={iconSrc} alt="" className="vital-icon" />

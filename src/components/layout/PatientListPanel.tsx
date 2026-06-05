@@ -32,7 +32,7 @@ export function PatientListPanel({ patients, activePatientName, onSelectPatient 
         />
       </div>
 
-      <div className="flex-1 overflow-y-auto scrollbar-custom" style={{ maxHeight: '1054px' }}>
+      <div className="flex-1 overflow-y-auto scrollbar-custom" style={{ maxHeight: 'clamp(300px, 50vh, 1054px)' }}>
         {filteredPatients.map((patient) => (
           <div
             key={patient.name}

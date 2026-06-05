@@ -13,7 +13,7 @@ export function PatientProfilePanel({ patient }: PatientProfilePanelProps) {
   };
 
   return (
-    <div className="min-w-[240px] max-w-[367px] card-base card-padding">
+    <div className="w-full max-w-full xl:min-w-[240px] xl:max-w-[367px] card-base card-padding">
       <div className="flex flex-col items-center mb-6">
         <div className="max-w-[200px]">
           <img

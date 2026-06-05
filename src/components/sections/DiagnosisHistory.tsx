@@ -55,45 +55,49 @@ export function DiagnosisHistory({ diagnosisHistory }: DiagnosisHistoryProps) {
   };
 
   const CustomLegend = () => (
-    <div className="flex flex-col gap-3 pt-2">
-      <div className="flex items-center gap-2">
-        <span className="w-3.5 h-3.5 rounded-full border border-white" style={{ background: '#E66FD2' }} />
-        <span className="text-body-emphasized">Systolic</span>
-      </div>
-      <div className="flex items-center gap-1.5">
-        <span className="text-xl font-bold text-navy">{latestReading?.blood_pressure.systolic.value || '-'}</span>
-      </div>
-      <div className="flex items-center gap-1">
-        <span className="text-xs text-gray-500">{latestReading?.blood_pressure.systolic.levels || ''}</span>
+    <div className="flex sm:flex-col gap-3 sm:gap-3 pt-2">
+      <div className="flex-1 sm:w-auto">
+        <div className="flex items-center gap-2">
+          <span className="w-3.5 h-3.5 rounded-full border border-white shrink-0" style={{ background: '#E66FD2' }} />
+          <span className="text-body-emphasized text-sm sm:text-base">Systolic</span>
+        </div>
+        <div className="flex items-center gap-1.5 mt-1">
+          <span className="text-lg sm:text-xl font-bold text-navy">{latestReading?.blood_pressure.systolic.value || '-'}</span>
+        </div>
+        <div className="flex items-center gap-1">
+          <span className="text-xs text-gray-500">{latestReading?.blood_pressure.systolic.levels || ''}</span>
+        </div>
       </div>
 
-      <div className="h-px bg-gray-200 my-1" />
+      <div className="hidden sm:block h-px bg-gray-200 my-1" />
 
-      <div className="flex items-center gap-2">
-        <span className="w-3.5 h-3.5 rounded-full border border-white" style={{ background: '#8C6FE6' }} />
-        <span className="text-body-emphasized">Diastolic</span>
-      </div>
-      <div className="flex items-center gap-1.5">
-        <span className="text-xl font-bold text-navy">{latestReading?.blood_pressure.diastolic.value || '-'}</span>
-      </div>
-      <div className="flex items-center gap-1">
-        <span className="text-xs text-gray-500">{latestReading?.blood_pressure.diastolic.levels || ''}</span>
+      <div className="flex-1 sm:w-auto">
+        <div className="flex items-center gap-2">
+          <span className="w-3.5 h-3.5 rounded-full border border-white shrink-0" style={{ background: '#8C6FE6' }} />
+          <span className="text-body-emphasized text-sm sm:text-base">Diastolic</span>
+        </div>
+        <div className="flex items-center gap-1.5 mt-1">
+          <span className="text-lg sm:text-xl font-bold text-navy">{latestReading?.blood_pressure.diastolic.value || '-'}</span>
+        </div>
+        <div className="flex items-center gap-1">
+          <span className="text-xs text-gray-500">{latestReading?.blood_pressure.diastolic.levels || ''}</span>
+        </div>
       </div>
     </div>
   );
 
   return (
     <div
-      className="rounded-[12px] shadow-card p-6 mb-[20px]"
+      className="rounded-[12px] shadow-card p-4 sm:p-6 mb-[20px] w-full"
       style={{
-        width: "726px",
-        maxWidth: "726px",
-        height: "298px",
+        maxWidth: "100%",
+        height: "auto",
+        minHeight: "298px",
         background: "#F4F0FE",
       }}
     >
-      <div className="flex gap-6">
-        <div className="flex-1 h-[220px]">
+      <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
+        <div className="flex-1 h-[200px] sm:h-[220px] min-w-0">
           <div className="flex items-center justify-between mb-1">
             <h4 className="text-base font-semibold text-gray-900 mb-4">
               Blood Pressure
@@ -149,7 +153,7 @@ export function DiagnosisHistory({ diagnosisHistory }: DiagnosisHistoryProps) {
           </ResponsiveContainer>
         </div>
 
-        <div className="w-36">
+        <div className="w-full sm:w-36 flex sm:block justify-around sm:justify-start">
           <CustomLegend />
         </div>
       </div>

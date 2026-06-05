@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { TopNavigation } from "./TopNavigation";
 import { PatientListPanel } from "./PatientListPanel";
 import { PatientProfilePanel } from "./PatientProfilePanel";
 import { SectionCard } from "@/components/shared/SectionCard";
@@ -53,53 +52,36 @@ export function AppLayout() {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="flex flex-col xl:flex-row gap-4 xl:gap-6">
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.3, ease: "easeOut" }}
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.25, ease: "easeOut", delay: 0.15 }}
+        className="w-full xl:w-[clamp(280px,25vw,367px)] xl:flex-shrink-0 mt-4 xl:mt-8"
       >
-        <TopNavigation />
+        <PatientListPanel patients={patients} activePatientName={activePatient.name} onSelectPatient={handleSelectPatient} />
       </motion.div>
 
-<motion.main
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, ease: "easeOut", delay: 0.1 }}
-          className="px-6 pb-6"
-        >
-          <div className="flex gap-6">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.25, ease: "easeOut", delay: 0.15 }}
-              className="flex-shrink-0 mt-8 max-w-[367px]"
-            >
-              <PatientListPanel patients={patients} activePatientName={activePatient.name} onSelectPatient={handleSelectPatient} />
-            </motion.div>
+      <div className="flex flex-col gap-4 xl:gap-8 xl:mt-8 flex-1 min-w-0">
+        <SectionCard className="w-full">
+          <h2 className="text-heading mb-5">Diagnosis History</h2>
+          <DiagnosisHistory diagnosisHistory={activePatient.diagnosis_history} />
+          <VitalSignsCards diagnosisHistory={activePatient.diagnosis_history} />
+        </SectionCard>
+        <SectionCard className="w-full">
+          <DiagnosticList diagnosticItem={activePatient.diagnostic_list} />
+        </SectionCard>
+      </div>
 
-            <div className="flex mt-8 flex-col gap-8">
-              <SectionCard width="766px">
-                <h2 className="text-heading mb-5">Diagnosis History</h2>
-                <DiagnosisHistory diagnosisHistory={activePatient.diagnosis_history} />
-                <VitalSignsCards diagnosisHistory={activePatient.diagnosis_history} />
-              </SectionCard>
-              <SectionCard width="766px">
-                <DiagnosticList diagnosticItem={activePatient.diagnostic_list} />
-              </SectionCard>
-            </div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.25, ease: "easeOut", delay: 0.25 }}
-              className="flex mt-[18px] flex-col gap-6"
-            >
-              <PatientProfilePanel patient={activePatient} />
-              <LabResults labResults={activePatient.lab_results} />
-            </motion.div>
-          </div>
-        </motion.main>
+      <motion.div
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.25, ease: "easeOut", delay: 0.25 }}
+        className="flex flex-col gap-4 xl:gap-6 xl:mt-[18px] w-full xl:w-[clamp(280px,25vw,367px)] xl:flex-shrink-0"
+      >
+        <PatientProfilePanel patient={activePatient} />
+        <LabResults labResults={activePatient.lab_results} />
+      </motion.div>
     </div>
   );
 }

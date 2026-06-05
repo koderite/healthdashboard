@@ -81,6 +81,14 @@
 
 
 @layer utilities {
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+
   .scrollbar-custom {
     /* Firefox */
     scrollbar-width: thin;
@@ -206,10 +214,13 @@
   .nav-btn {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 8px 16px;
+    gap: clamp(4px, 0.4vw + 2px, 8px);
+    padding: clamp(3px, 0.3vw + 2px, 6px) clamp(6px, 0.6vw + 2px, 14px);
     border-radius: 9999px;
-    font: normal normal bold 14px/19px var(--font-family);
+    font-family: var(--font-family);
+    font-weight: 700;
+    font-size: clamp(11px, 0.7vw + 5px, 14px);
+    line-height: clamp(15px, 0.8vw + 7px, 19px);
     letter-spacing: 0px;
     color: var(--color-navy);
     @apply transition-all duration-150;
@@ -338,9 +349,14 @@
   .vital-card {
     border-radius: 16px;
     padding: 20px;
-    max-width: 228px;
     max-height: 242px;
     transition: all 200ms;
+  }
+
+  @media (max-width: 640px) {
+    .vital-card {
+      padding: 16px;
+    }
   }
 
   .vital-card:hover {
@@ -350,6 +366,13 @@
   .vital-icon {
     width: 94px;
     height: 94px;
+  }
+
+  @media (max-width: 640px) {
+    .vital-icon {
+      width: 60px;
+      height: 60px;
+    }
   }
 
   .vital-value {

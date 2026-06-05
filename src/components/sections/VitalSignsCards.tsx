@@ -13,7 +13,7 @@ export function VitalSignsCards({ diagnosisHistory }: VitalSignsCardsProps) {
   if (!latest) return null;
 
   return (
-    <div className="grid grid-cols-3 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
       <VitalSignCard
         vitalSign={{
           value: latest.respiratory_rate.value,
