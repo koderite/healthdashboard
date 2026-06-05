@@ -54,7 +54,7 @@ export function TopNavigation() {
             onClick={() => navigate(tab.path)}
             className={`nav-btn ${isActive(tab.path) ? 'nav-btn-active' : 'nav-btn-inactive'}`}
           >
-            <img src={tab.icon} alt={tab.label} width={tab.iconWidth} height={tab.iconHeight} className="flex-shrink-0 w-auto h-[clamp(12px,1.3vw,17px)]" />
+            <img src={tab.icon} alt={tab.label} width={tab.iconWidth} height={tab.iconHeight} className="flex-shrink-0 w-auto h-[clamp(16px,1.5vw,17px)]" />
             <span className="hidden sm:inline text-[clamp(11px,1.1vw,14px)]">{tab.label}</span>
           </button>
         ))}
@@ -75,10 +75,10 @@ export function TopNavigation() {
         </div>
         <div className="divider hidden sm:block" />
         <button className="icon-btn hover:rotate-[15deg]">
-          <img src={SettingsIcon} alt="Settings" width={19} height={20} className="w-[15px] h-[16px] lg:w-[19px] lg:h-[20px]" />
+          <img src={SettingsIcon} alt="Settings" width={19} height={20} className="w-[17px] h-[18px] lg:w-[19px] lg:h-[20px]" />
         </button>
         <button className="icon-btn ml-1 lg:ml-3">
-          <img src={MoreIcon} alt="More" width={4} height={18} className="w-[3px] h-[14px] lg:w-[4px] lg:h-[18px]" />
+          <img src={MoreIcon} alt="More" width={4} height={18} className="w-[4px] h-[16px] lg:w-[4px] lg:h-[18px]" />
         </button>
       </div>
       </div>
