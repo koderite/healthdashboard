@@ -20,7 +20,7 @@ createRoot(document.getElementById('root')!).render(
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <App />
-        <Agentation />
+        {import.meta.env.DEV && <Agentation />}
       </BrowserRouter>
     </QueryClientProvider>
   </StrictMode>,

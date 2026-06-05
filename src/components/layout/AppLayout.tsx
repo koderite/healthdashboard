@@ -57,7 +57,7 @@ export function AppLayout() {
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.25, ease: "easeOut", delay: 0.15 }}
-        className="w-full xl:w-[clamp(280px,25vw,367px)] xl:flex-shrink-0 mt-4 xl:mt-8"
+        className="w-full xl:w-[clamp(240px,20vw,340px)] xl:flex-shrink-0 mt-4 xl:mt-8"
       >
         <PatientListPanel patients={patients} activePatientName={activePatient.name} onSelectPatient={handleSelectPatient} />
       </motion.div>
@@ -77,7 +77,7 @@ export function AppLayout() {
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.25, ease: "easeOut", delay: 0.25 }}
-        className="flex flex-col gap-4 xl:gap-6 xl:mt-[18px] w-full xl:w-[clamp(280px,25vw,367px)] xl:flex-shrink-0"
+        className="flex flex-col gap-4 xl:gap-6 xl:mt-[18px] w-full xl:w-[clamp(240px,20vw,340px)] xl:flex-shrink-0"
       >
         <PatientProfilePanel patient={activePatient} />
         <LabResults labResults={activePatient.lab_results} />
