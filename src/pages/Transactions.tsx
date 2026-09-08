@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Download, Search, ArrowUpDown } from 'lucide-react';
+import { toast } from 'sonner';
+import { ArrowDown, ArrowUp, ArrowUpDown, Download, Search } from 'lucide-react';
 
 const transactions = [
   { id: '#INV-2024-001', patient: 'Jessica Taylor', date: 'Jan 15, 2024', amount: '$450.00', method: 'Insurance', status: 'Paid' },
@@ -18,13 +19,76 @@ const statusStyles: Record<string, string> = {
   'Overdue': 'bg-red-100 text-red-700',
 };
 
+type SortKey = 'id' | 'patient' | 'date' | 'amount' | 'method' | 'status';
+type SortDir = 'asc' | 'desc';
+
+const COLUMNS: { key: SortKey; label: string }[] = [
+  { key: 'id', label: 'Invoice' },
+  { key: 'patient', label: 'Patient' },
+  { key: 'date', label: 'Date' },
+  { key: 'amount', label: 'Amount' },
+  { key: 'method', label: 'Method' },
+  { key: 'status', label: 'Status' },
+];
+
+const parseAmount = (amount: string) => Number(amount.replace(/[^0-9.]/g, '')) || 0;
+
+function exportCsv(rows: typeof transactions) {
+  const header = ['Invoice', 'Patient', 'Date', 'Amount', 'Method', 'Status'];
+  const lines = rows.map((row) =>
+    [row.id, row.patient, row.date, row.amount, row.method, row.status]
+      .map((value) => `"${value}"`)
+      .join(',')
+  );
+  const blob = new Blob([[header.join(','), ...lines].join('\n')], {
+    type: 'text/csv;charset=utf-8',
+  });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'transactions.csv';
+  link.click();
+  URL.revokeObjectURL(url);
+}
+
 export default function Transactions() {
   const [searchQuery, setSearchQuery] = useState('');
+  const [sortKey, setSortKey] = useState<SortKey>('id');
+  const [sortDir, setSortDir] = useState<SortDir>('asc');
 
-  const filtered = transactions.filter(tx =>
-    tx.patient.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    tx.id.toLowerCase().includes(searchQuery.toLowerCase())
+  const normalizedQuery = searchQuery.trim().toLowerCase();
+  const filtered = useMemo(
+    () =>
+      transactions.filter(
+        (tx) =>
+          tx.patient.toLowerCase().includes(normalizedQuery) ||
+          tx.id.toLowerCase().includes(normalizedQuery)
+      ),
+    [normalizedQuery]
   );
+
+  const sorted = useMemo(() => {
+    const factor = sortDir === 'asc' ? 1 : -1;
+    return [...filtered].sort((a, b) =>
+      sortKey === 'amount'
+        ? factor * (parseAmount(a.amount) - parseAmount(b.amount))
+        : factor * a[sortKey].localeCompare(b[sortKey])
+    );
+  }, [filtered, sortKey, sortDir]);
+
+  const toggleSort = (key: SortKey) => {
+    if (key === sortKey) {
+      setSortDir((dir) => (dir === 'asc' ? 'desc' : 'asc'));
+    } else {
+      setSortKey(key);
+      setSortDir('asc');
+    }
+  };
+
+  const handleExport = () => {
+    exportCsv(sorted);
+    toast.success(`Exported ${sorted.length} transaction${sorted.length === 1 ? '' : 's'} to CSV`);
+  };
 
   return (
     <motion.div
@@ -47,10 +111,11 @@ export default function Transactions() {
             />
           </div>
           <button
-            onClick={() => alert('Export feature coming soon')}
-            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-navy border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors duration-150"
+            type="button"
+            onClick={handleExport}
+            className="flex items-center gap-2 rounded-xl border border-gray-200 px-4 py-2 text-sm font-medium text-navy transition-all duration-150 hover:bg-gray-50 active:scale-[0.98]"
           >
-            <Download className="w-4 h-4" />
+            <Download className="h-4 w-4" aria-hidden="true" />
             Export
           </button>
         </div>
@@ -61,25 +126,39 @@ export default function Transactions() {
           <table className="w-full text-sm">
             <thead>
               <tr className="bg-gray-50">
-                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-                  <div className="flex items-center gap-1">
-                    Invoice <ArrowUpDown className="w-3 h-3" />
-                  </div>
-                </th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Patient</th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Date</th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Amount</th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Method</th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Status</th>
+                {COLUMNS.map(({ key, label }) => {
+                  const isActive = sortKey === key;
+                  return (
+                    <th
+                      key={key}
+                      scope="col"
+                      className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500"
+                    >
+                      <button
+                        type="button"
+                        onClick={() => toggleSort(key)}
+                        aria-label={`Sort by ${label}`}
+                        className={`flex items-center gap-1 rounded transition-colors duration-150 hover:text-navy ${isActive ? 'text-navy' : ''}`}
+                      >
+                        {label}
+                        {isActive ? (
+                          sortDir === 'asc' ? (
+                            <ArrowUp className="h-3 w-3" aria-hidden="true" />
+                          ) : (
+                            <ArrowDown className="h-3 w-3" aria-hidden="true" />
+                          )
+                        ) : (
+                          <ArrowUpDown className="h-3 w-3 opacity-40" aria-hidden="true" />
+                        )}
+                      </button>
+                    </th>
+                  );
+                })}
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-50">
-              {filtered.map((tx, i) => (
-                <tr
-                  key={i}
-                  onClick={() => alert(`Invoice ${tx.id} for ${tx.patient} - ${tx.amount}`)}
-                  className="hover:bg-gray-50 transition-colors duration-150 cursor-pointer"
-                >
+              {sorted.map((tx) => (
+                <tr key={tx.id} className="transition-colors duration-150 hover:bg-gray-50">
                   <td className="px-4 py-3.5 text-sm font-medium text-navy">{tx.id}</td>
                   <td className="px-4 py-3.5 text-sm text-gray-700">{tx.patient}</td>
                   <td className="px-4 py-3.5 text-sm text-gray-500">{tx.date}</td>
@@ -92,6 +171,13 @@ export default function Transactions() {
                   </td>
                 </tr>
               ))}
+              {sorted.length === 0 && (
+                <tr>
+                  <td colSpan={COLUMNS.length} className="px-4 py-10 text-center text-sm text-gray-500">
+                    No transactions match &ldquo;{searchQuery.trim()}&rdquo;.
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>

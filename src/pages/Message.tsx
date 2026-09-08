@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Search, ChevronLeft } from 'lucide-react';
+import { Search, SearchX, ChevronLeft } from 'lucide-react';
 import drJoseImg from '@/assets/Dr-Jose.png';
 
 const conversations = [
@@ -23,6 +23,25 @@ const unreadDot = (count: number) => {
 
 export default function Message() {
   const [selectedConv, setSelectedConv] = useState<typeof conversations[0] | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const normalizedQuery = searchQuery.trim().toLowerCase();
+  const filteredConversations = useMemo(
+    () =>
+      normalizedQuery
+        ? conversations.filter((conv) =>
+            [conv.name, conv.role, conv.preview].some((field) =>
+              field.toLowerCase().includes(normalizedQuery)
+            )
+          )
+        : conversations,
+    [normalizedQuery]
+  );
+
+  const totalUnread = useMemo(
+    () => conversations.reduce((count, conv) => count + conv.unread, 0),
+    []
+  );
 
   return (
     <motion.div
@@ -31,23 +50,37 @@ export default function Message() {
       transition={{ duration: 0.3, ease: "easeOut" }}
       className="mt-4 xl:mt-8"
     >
-      <h1 className="text-title mb-6">Messages</h1>
+      <div className="mb-6 flex items-center justify-between gap-4">
+        <h1 className="text-title">Messages</h1>
+        {totalUnread > 0 && (
+          <span className="rounded-full bg-[#01F0D0]/20 px-3 py-1 text-xs font-bold text-navy">
+            {totalUnread} unread
+          </span>
+        )}
+      </div>
 
       <div className="flex flex-col xl:flex-row gap-6">
         <div className={`w-full xl:w-[400px] card-base overflow-hidden ${selectedConv ? 'hidden xl:block' : ''}`}>
-          <div className="p-4 border-b border-gray-100">
+          <div className="border-b border-gray-100 p-4">
             <div className="relative">
-              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+              <Search
+                className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400"
+                aria-hidden="true"
+              />
               <input
                 type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search conversations..."
-                className="w-full pl-10 pr-4 py-2 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-1 focus:ring-teal-500"
+                aria-label="Search conversations"
+                className="w-full rounded-xl border border-gray-200 py-2 pl-10 pr-4 text-sm transition-colors focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500"
               />
             </div>
           </div>
 
-          <div className="divide-y divide-gray-50 max-h-[600px] overflow-y-auto scrollbar-custom">
-            {conversations.map((conv, i) => (
+          {filteredConversations.length > 0 ? (
+            <div className="divide-y divide-gray-50 max-h-[600px] overflow-y-auto scrollbar-custom">
+              {filteredConversations.map((conv, i) => (
               <div
                 key={i}
                 onClick={() => setSelectedConv(conv)}
@@ -74,7 +107,21 @@ export default function Message() {
                 </div>
               </div>
             ))}
-          </div>
+            </div>
+          ) : (
+            <div className="flex flex-col items-center gap-2 px-6 py-10 text-center">
+              <SearchX className="h-8 w-8 text-gray-300" aria-hidden="true" />
+              <p className="text-sm font-semibold text-navy">No conversations found</p>
+              <p className="text-xs text-gray-500">Try a different search term.</p>
+              <button
+                type="button"
+                onClick={() => setSearchQuery('')}
+                className="mt-1 text-xs font-bold text-primary hover:underline"
+              >
+                Clear search
+              </button>
+            </div>
+          )}
         </div>
 
         <div className={`flex-1 card-base p-4 sm:p-6 ${!selectedConv ? 'hidden xl:flex' : 'flex'} items-start justify-center flex-col`}>

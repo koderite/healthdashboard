@@ -350,7 +350,7 @@
     border-radius: 16px;
     padding: 20px;
     max-height: 242px;
-    transition: all 200ms;
+    transition: transform 200ms ease, box-shadow 200ms ease;
   }
 
   @media (max-width: 640px) {
@@ -408,7 +408,7 @@
     gap: 12px;
     padding: 12px 16px;
     text-align: left;
-    transition: all 200ms;
+    transition: background-color 150ms ease;
     border: none;
     background: transparent;
     cursor: pointer;
@@ -435,4 +435,28 @@
     font-size: 12px;
     color: var(--color-gray-muted);
   }
+}
+
+/* Accessibility: respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Accessibility: clear keyboard focus indicator */
+:focus-visible {
+  outline: 2px solid var(--color-teal);
+  outline-offset: 2px;
+}
+
+/* Hide native clear button on search inputs (custom clear button is rendered) */
+input[type='search']::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
 }

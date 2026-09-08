@@ -1,33 +1,38 @@
-import { MoreHorizontal } from 'lucide-react';
+import { memo } from 'react';
 import { cn } from '@/lib/utils';
 import type { Patient } from '@/lib/api';
 
 interface PatientListItemProps {
   patient: Patient;
   isActive: boolean;
-  onClick: () => void;
+  onSelect: (name: string) => void;
 }
 
-export function PatientListItem({ patient, isActive, onClick }: PatientListItemProps) {
+export const PatientListItem = memo(function PatientListItem({
+  patient,
+  isActive,
+  onSelect,
+}: PatientListItemProps) {
   return (
     <button
-      onClick={onClick}
+      type="button"
+      role="option"
+      aria-selected={isActive}
+      onClick={() => onSelect(patient.name)}
       className={cn('patient-item', isActive && 'patient-item-active')}
     >
-<img
-          src={patient.profile_picture}
-          alt={patient.name}
+      <img
+        src={patient.profile_picture}
+        alt=""
+        loading="lazy"
         className="patient-avatar"
       />
-      <div className="flex-1 min-w-0">
-        <p className="text-body-emphasized truncate">
-          {patient.name}
-        </p>
-        <p className="patient-meta">
+      <span className="min-w-0 flex-1 text-left">
+        <span className="text-body-emphasized block truncate">{patient.name}</span>
+        <span className="patient-meta block truncate">
           {patient.gender}, {patient.age}
-        </p>
-      </div>
-      <MoreHorizontal className="w-4 h-4 flex-shrink-0" />
+        </span>
+      </span>
     </button>
   );
-}
+});

@@ -9,15 +9,15 @@ interface InfoRowProps {
 
 export function InfoRow({ icon: Icon, iconSrc, label, value }: InfoRowProps) {
   return (
-    <div className="info-row mb-6">
+    <div className="info-row">
       {iconSrc ? (
-        <img src={iconSrc} alt="" className="info-icon mt-0.5" />
+        <img src={iconSrc} alt="" loading="lazy" className="info-icon" />
       ) : Icon ? (
-        <Icon className="w-5 h-5 text-gray-400 mt-0.5 flex-shrink-0" />
+        <Icon className="mt-0.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
       ) : null}
-      <div>
+      <div className="min-w-0">
         <p className="info-label">{label}</p>
-        <p className="info-value">{value}</p>
+        <p className="info-value break-words">{value}</p>
       </div>
     </div>
   );

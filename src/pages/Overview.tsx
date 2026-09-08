@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router';
 import { Activity, TrendingUp, Users, Clock, ArrowUp, ArrowDown } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, type Variants } from 'framer-motion';
 
 const stats = [
   { label: 'Total Patients', value: '2,847', change: '+12.5%', up: true, icon: Users, color: '#E0F3FA' },
@@ -24,6 +24,16 @@ const quickActions: { label: string; path: string }[] = [
   { label: 'Manage Staff', path: '/schedule' },
 ];
 
+const statsContainer: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.07, delayChildren: 0.05 } },
+};
+
+const statsItem: Variants = {
+  hidden: { opacity: 0, y: 16 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.3, ease: 'easeOut' } },
+};
+
 export default function Overview() {
   const navigate = useNavigate();
 
@@ -36,12 +46,17 @@ export default function Overview() {
     >
       <h1 className="text-title mb-6">Overview</h1>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
+      <motion.div
+        variants={statsContainer}
+        initial="hidden"
+        animate="show"
+        className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4 mb-6"
+      >
         {stats.map((stat) => (
           <motion.div
             key={stat.label}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            variants={statsItem}
+            whileHover={{ y: -4 }}
             className="card-base p-5"
           >
             <div className="flex items-center justify-between mb-4">
@@ -60,7 +75,7 @@ export default function Overview() {
             <p className="text-sm text-gray-500">{stat.label}</p>
           </motion.div>
         ))}
-      </div>
+      </motion.div>
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
         <div className="xl:col-span-2 card-base p-5">
