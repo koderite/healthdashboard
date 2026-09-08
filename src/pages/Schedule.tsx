@@ -18,7 +18,7 @@ const statusStyles: Record<string, string> = {
 };
 
 export default function Schedule() {
-  const [selectedApt, setSelectedApt] = useState<typeof appointments[0] | null>(null);
+  const [selectedApt, setSelectedApt] = useState<typeof appointments[0] | null>(appointments[0] ?? null);
 
   return (
     <motion.div
@@ -43,11 +43,13 @@ export default function Schedule() {
           </div>
 
           <div className="divide-y divide-gray-100">
-            {appointments.map((apt, i) => (
-              <div
-                key={i}
+            {appointments.map((apt) => (
+              <button
+                type="button"
+                key={apt.time}
                 onClick={() => setSelectedApt(apt)}
-                className={`flex items-center gap-4 py-3.5 rounded-lg px-2 -mx-2 transition-colors duration-150 cursor-pointer ${
+                aria-pressed={selectedApt === apt}
+                className={`flex w-full items-center gap-4 rounded-lg px-2 py-3.5 text-left transition-colors duration-150 ${
                   selectedApt === apt ? 'bg-teal-light' : 'hover:bg-gray-50'
                 }`}
               >
@@ -63,7 +65,7 @@ export default function Schedule() {
                   {apt.status}
                 </span>
                 <ChevronRight className="w-4 h-4 text-gray-300 flex-shrink-0" />
-              </div>
+              </button>
             ))}
           </div>
         </div>
@@ -77,7 +79,13 @@ export default function Schedule() {
                   <X className="w-4 h-4" />
                 </button>
               </div>
-              <div className="space-y-4">
+              <motion.div
+                key={selectedApt.time}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.2, ease: 'easeOut' }}
+                className="space-y-4"
+              >
                 <div>
                   <p className="text-xs text-gray-500 mb-0.5">Patient</p>
                   <p className="text-sm font-semibold text-navy">{selectedApt.patient}</p>
@@ -100,7 +108,7 @@ export default function Schedule() {
                     {selectedApt.status}
                   </span>
                 </div>
-              </div>
+              </motion.div>
             </>
           ) : (
             <>
